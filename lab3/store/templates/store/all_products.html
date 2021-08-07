@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+<div class="row">
+    {% if products %}
+        {% for p in products %}
+            <div class="col-md-3">
+                <div class="border bg-light rounded p-1">
+                    {% load static %}
+                    <h3>{{ p.title }} by {{ p.artist }}</h3>
+                    <img src="{% static "store/img" %}/{{ p.art_id }}.jpg" alt="{{ p.title }}"/>
+                    <h4>Price: ${{ p.price }}</h4>
+                    <button id="buyButton" class="btn btn-success">Buy</button>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No products are available</p>
+    {% endif %}
+</div>
+</body>
+</html>
