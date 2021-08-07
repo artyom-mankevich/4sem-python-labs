@@ -19,7 +19,7 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return ' '.join((str(self.id), str(self.user), str(self.order_date)))
+        return ' '.join((str(self.id), str(self.user.id), str(self.user.email), str(self.order_date)))
 
 
 class OrderItem(models.Model):
@@ -44,7 +44,7 @@ class Product(models.Model):
     artist_birth = models.DateField()
     artist_death = models.DateField()
     artist_nationality = models.CharField(max_length=50)
-    art_description = models.TextField(max_length=250)
+    art_description = models.TextField(max_length=1000, null=True)
 
     def __str__(self):
         return ' '.join((str(self.id), self.category, self.size,
