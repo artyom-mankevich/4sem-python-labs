@@ -1,3 +1,5 @@
+{% extends 'store/base.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,22 +7,25 @@
     <title>Products</title>
 </head>
 <body>
-<div class="row">
-    {% if products %}
-        {% for p in products %}
-            <div class="col-md-3">
-                <div class="border bg-light rounded p-1">
-                    {% load static %}
-                    <h3>{{ p.title }} by {{ p.artist }}</h3>
-                    <img src="{% static "store/img" %}/{{ p.art_id }}.jpg" alt="{{ p.title }}"/>
-                    <h4>Price: ${{ p.price }}</h4>
-                    <button id="buyButton" class="btn btn-success">Buy</button>
+{% block content %}
+    <div class="row">
+        {% if products %}
+            {% for p in products %}
+                <div class="col-md-3" id="product">
+                    <div class="border bg-light rounded p-1" id="productFrame">
+                        <a href="{% url 'store:product by id' pk=p.id %}">
+                            <span class="link-spanner"></span>
+                        </a>
+                        <img src="{% static "store/img" %}/{{ p.art_id }}.jpg" class="img-fluid" alt="{{ p.title }}"/>
+                        <p id="productTitle">{{ p.title }}</p>
+                        <p id="productPrice">${{ p.price }}</p>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No products are available</p>
-    {% endif %}
-</div>
+            {% endfor %}
+        {% else %}
+            <p>No products are available</p>
+        {% endif %}
+    </div>
+{% endblock %}
 </body>
 </html>
