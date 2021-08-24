@@ -1,42 +1,50 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
 # Create your models here.
 
 
-class User(models.Model):
-    first_name = models.CharField(max_length=100)
-    second_name = models.CharField(max_length=100)
-    email = models.CharField(max_length=250, unique=True)
-    phone_number = models.CharField(max_length=15, unique=True)
-
-    def __str__(self):
-        return ' '.join((str(self.id), self.first_name, self.second_name, self.email, self.phone_number))
-
-
 class Order(models.Model):
-    order_date = models.DateTimeField()
+    order_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    complete = models.BooleanField(default=False)
+    total_price = models.FloatField(default=0)
+
+    def get_cart_total_price(self):
+        order_items = self.orderitem_set.all()
+        self.total_price = sum([item.get_total for item in order_items])
+        return self.total_price
+
+    @property
+    def items_count(self):
+        order_items = self.orderitem_set.all()
+        total = sum([item.quantity for item in order_items])
+        return total
 
     def __str__(self):
-        return ' '.join((str(self.id), str(self.user.id), str(self.user.email), str(self.order_date)))
+        return ' '.join((f'ID: {str(self.id)};', f'UserID: {str(self.user.id)};',
+                         f'OrderDate: {str(self.order_date)}'))
 
 
 class OrderItem(models.Model):
-    quantity = models.IntegerField()
-    unit_price = models.IntegerField("product price * quantity")
+    quantity = models.IntegerField(default=0)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
 
+    @property
+    def get_total(self):
+        return self.product.price * self.quantity
+
     def __str__(self):
-        return ' '.join((str(self.id), str(self.quantity), str(self.unit_price),
-                         str(self.order), str(self.product)))
+        return ' '.join((f'ID: {str(self.id)};', str(self.order.id),
+                         str(self.quantity), str(self.product)))
 
 
 class Product(models.Model):
     category = models.CharField(max_length=250)
     size = models.CharField(max_length=50)
-    price = models.CharField(max_length=50)
+    price = models.FloatField()
     title = models.CharField(max_length=250)
     art_dating = models.CharField(max_length=250)
     art_id = models.CharField(max_length=50)
