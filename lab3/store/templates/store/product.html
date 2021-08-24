@@ -1,3 +1,5 @@
+{% extends 'store/base.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +7,41 @@
     <title>{{ product.title }}</title>
 </head>
 <body>
-    <h1>{{ product }}</h1>
+{% block content %}
+    <div class="col-md-8 offset-2">
+        <div class="border bg-light rounded p-1" id="productPage">
+            <div class="row">
+                <div class="col-md-5">
+                    <img src="{% static "store/img" %}/{{ product.art_id }}.jpg" class="img-fluid" alt="{{ p.title }}"/>
+                </div>
+                <div class="col-md-7">
+                    <div class="border-bottom border-2">
+                        <h4 id="productPageTitle">{{ product.title }}</h4>
+                    </div>
+                    <div>
+                        {% if product.art_description %}
+                        <div id="artDescription" class="border-bottom border-2">
+                            <p>{{ product.art_description }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div id="productTechnicals">
+                        <h5>Technical Information:</h5>
+                        <p>Author: {{ product.artist }}</p>
+                        <p>Category: {{ product.category }}</p>
+                        <p>Size: {{ product.size }}</p>
+                        <p>Dating: {{ product.art_dating }}</p>
+                        <div id="productTechnicalsPrice">
+                            <p>${{ product.price }}</p>
+                            <button data-product="{{ product.id }}" data-action="add" class="btn btn-success update-cart">
+                                <i class="fas fa-cart-arrow-down"></i> Add to cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 </body>
 </html>
