@@ -192,5 +192,8 @@ body {
 
 #checkoutButton {
     float: right;
-    margin: 5px;
+}
+
+#totalPriceLabel {
+    float: right;
 }
