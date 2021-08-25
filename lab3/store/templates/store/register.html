@@ -10,21 +10,21 @@
 <body>
 {% block content %}
     <div class="content-section card card-body bg-light col-md-6 offset-md-3">
+        <div>
+            <small class="text-muted" style="float: right">
+                Already have an account? <a href="{% url 'login' %}">Sign In</a>
+            </small>
+        </div>
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom">Registration</legend>
+                <legend class="border-bottom" style="padding-bottom: 1em">Registration</legend>
                 {{ form|crispy }}
             </fieldset>
             <div id="signUpButton" class="form-group">
                 <button class="btn btn-success" type="submit">Sign Up</button>
             </div>
         </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Already have an account? <a href="{% url 'login' %}">Sign In</a>
-            </small>
-        </div>
     </div>
 {% endblock %}
 </body>
