@@ -1,12 +1,38 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+import re
+
+from django.core.exceptions import ValidationError
 
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField()
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
+    username = forms.CharField(required=True, max_length=30, min_length=3,
+                               help_text="Latin letters, underscores and digits only. Up to 30 "
+                                         "characters.")
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=True, help_text="First letter should be uppercase. Only latin characters. "
+                                                          "Example: John.")
+    last_name = forms.CharField(required=True, help_text="First letter should be uppercase. Only latin characters. "
+                                                         "Example: Smith.")
+
+    def clean_username(self):
+        data = self.cleaned_data['username']
+        if not re.match("^[a-z0-9_]{3,30}$", data):
+            raise ValidationError("Username is invalid")
+        return data
+
+    def clean_first_name(self):
+        data = self.cleaned_data['first_name']
+        if not re.match("^[A-Z][a-z]+$", data):
+            raise ValidationError("First name is invalid")
+        return data
+
+    def clean_last_name(self):
+        data = self.cleaned_data['last_name']
+        if not re.match("^[A-Z][a-z]+$", data):
+            raise ValidationError("Last name is invalid")
+        return data
 
     class Meta:
         model = User
