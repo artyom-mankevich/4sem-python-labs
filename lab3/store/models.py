@@ -56,5 +56,5 @@ class Product(models.Model):
 
     def __str__(self):
         return ' '.join((str(self.id), self.category, self.size,
-                         self.price, self.title, self.art_dating,
+                         str(self.price), self.title, self.art_dating,
                          self.art_id, self.artist))

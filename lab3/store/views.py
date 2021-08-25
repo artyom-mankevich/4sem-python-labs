@@ -1,17 +1,15 @@
 import json
-
-import django.template
 from django.conf.global_settings import LOGIN_URL
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
+from django.template import loader
 from django.views import generic
-from django.contrib import messages
-from .forms import UserRegisterForm
-
 from store.models import Product, Order, OrderItem
+from .forms import UserRegisterForm
 
 
 class IndexView(generic.TemplateView):
