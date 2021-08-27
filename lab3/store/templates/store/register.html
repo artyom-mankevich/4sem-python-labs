@@ -1,4 +1,5 @@
 {% extends "store/base.html" %}
+{% load static %}
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
@@ -26,6 +27,7 @@
             </div>
         </form>
     </div>
+    <script type="text/javascript" src="{% static 'store/js/register.js' %}"></script>
 {% endblock %}
 </body>
 </html>
