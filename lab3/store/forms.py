@@ -2,19 +2,19 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 import re
-
+from django.core.validators import EmailValidator
 from django.core.exceptions import ValidationError
 
 
 class UserRegisterForm(UserCreationForm):
     username = forms.CharField(required=True, max_length=30, min_length=3,
-                               help_text="Latin letters, underscores and digits only. Up to 30 "
+                               help_text="Latin lowercase letters, underscores and digits only. At least 3 "
                                          "characters.")
-    email = forms.EmailField(required=True)
-    first_name = forms.CharField(required=True, help_text="First letter should be uppercase. Only latin characters. "
-                                                          "Example: John.")
-    last_name = forms.CharField(required=True, help_text="First letter should be uppercase. Only latin characters. "
-                                                         "Example: Smith.")
+    email = forms.EmailField(required=True, validators=[EmailValidator(message="Email is invalid")])
+    first_name = forms.CharField(required=False, help_text="First letter should be uppercase. Only latin characters. "
+                                                           "Example: John.")
+    last_name = forms.CharField(required=False, help_text="First letter should be uppercase. Only latin characters. "
+                                                          "Example: Smith.")
 
     def clean_username(self):
         data = self.cleaned_data['username']
