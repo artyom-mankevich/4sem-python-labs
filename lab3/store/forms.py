@@ -1,9 +1,10 @@
+import re
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-import re
-from django.core.validators import EmailValidator
 from django.core.exceptions import ValidationError
+from django.core.validators import EmailValidator
 
 
 class UserRegisterForm(UserCreationForm):
@@ -24,13 +25,13 @@ class UserRegisterForm(UserCreationForm):
 
     def clean_first_name(self):
         data = self.cleaned_data['first_name']
-        if not re.match("^[A-Z][a-z]+$", data):
+        if data and not re.match("^[A-Z][a-z]+$", data):
             raise ValidationError("First name is invalid")
         return data
 
     def clean_last_name(self):
         data = self.cleaned_data['last_name']
-        if not re.match("^[A-Z][a-z]+$", data):
+        if data and not re.match("^[A-Z][a-z]+$", data):
             raise ValidationError("Last name is invalid")
         return data
 
