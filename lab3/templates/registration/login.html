@@ -7,9 +7,6 @@
 </head>
 <body>
 {% block content %}
-    {% if form.errors %}
-        <p>Your username and password didn't match. Please try again.</p>
-    {% endif %}
     {% if next %}
         {% if user.is_authenticated %}
             <p>Your account doesn't have access to this page. To proceed,
@@ -32,6 +29,9 @@
                         <label>{{ form.password.label_tag }}</label>
                         {{ form.password }}
                     </div>
+                    {% if form.errors %}
+                        <p style="text-align: center; color: red">Username and password didn't match.</p>
+                    {% endif %}
                     <div class="form-group">
                         <input id="loginButton" type="submit" value="Sign In" class="btn btn-success"/>
                     </div>
