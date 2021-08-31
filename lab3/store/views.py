@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.views import generic
@@ -101,3 +101,5 @@ def save_order(request):
         order.complete = True
         order.save()
         messages.success(request, 'Order successfully created')
+
+    return HttpResponse(status=200)

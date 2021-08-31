@@ -56,4 +56,7 @@ function saveOrder(orderId, action) {
         .then((response) => {
             return response.json()
         })
+        .then(() => {
+            location.reload()
+        })
 }
