@@ -23,7 +23,7 @@ class ProductFactory(factory.django.DjangoModelFactory):
     price = "29.99"
     title = "Self-portrait"
     art_dating = "1887"
-    art_id = "SK-A-3262",
+    art_id = "SK-A-3262"
     artist = "Vincent van Gogh"
     artist_birth = "1853-03-30"
     artist_death = "1890-07-29"
