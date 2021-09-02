@@ -11,6 +11,9 @@ done
 echo "Applying database migrations"
 python manage.py migrate
 
+echo "Seeding PRODUCT table from art3.json"
+python manage.py loaddata product.json
+
 echo "Creating superuser"
 python manage.py createsuperuser --noinput
 
