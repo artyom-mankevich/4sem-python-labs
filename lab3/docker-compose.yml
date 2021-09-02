@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  db:
+    image: mysql
+    volumes:
+      - "./.mysql-data/db:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: lab3db
+      MYSQL_ROOT_PASSWORD: password
+    restart: always
+  web:
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
