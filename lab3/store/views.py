@@ -1,4 +1,5 @@
 import json
+
 from django.conf.global_settings import LOGIN_URL
 from django.contrib import messages
 from django.contrib.auth import login
@@ -6,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
-from django.template import loader
 from django.views import generic
+
 from store.models import Product, Order, OrderItem
 from .forms import UserRegisterForm
 
