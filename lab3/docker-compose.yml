@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
     restart: always
   web:
-    build: .
+    image: artsiommankevich/lab34
     volumes:
       - .:/code
     ports:
