@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 from django.conf.global_settings import LOGIN_URL
@@ -9,8 +10,9 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
 
-from store.models import Product, Order, OrderItem
+from store.models import Product
 from .forms import UserRegisterForm
+from .utils import get_products, create_order, get_all_order_items, get_product, create_order_item, get_order
 
 
 class IndexView(generic.TemplateView):
@@ -23,7 +25,7 @@ class ProductsView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         """Return all products"""
-        return Product.objects.all()
+        return asyncio.run(get_products())
 
 
 class ProductByIdView(LoginRequiredMixin, generic.DetailView):
@@ -47,8 +49,8 @@ def register(request):
 
 def cart_data(request):
     user = request.user
-    order, created = Order.objects.get_or_create(user=user, complete=False)
-    items = order.orderitem_set.all()
+    order, created = asyncio.run(create_order(user))
+    items = asyncio.run(get_all_order_items(order))
     cart_items = order.items_count
     return {'cart_items': cart_items, 'order': order, 'items': items}
 
@@ -72,10 +74,10 @@ def update_item(request):
     action = data['action']
 
     user = request.user
-    product = Product.objects.get(id=product_id)
-    order, created = Order.objects.get_or_create(user=user, complete=False)
+    product = asyncio.run(get_product(product_id))
+    order, created = asyncio.run(create_order(user=user, complete=False))
 
-    order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
+    order_item, created = asyncio.run(create_order_item(order, product))
 
     if action == 'add':
         order_item.quantity += 1
@@ -96,7 +98,7 @@ def save_order(request):
     order_id = data['orderId']
     action = data['action']
 
-    order = Order.objects.get(pk=order_id)
+    order = asyncio.run(get_order(order_id))
 
     if action == 'save':
         order.complete = True
